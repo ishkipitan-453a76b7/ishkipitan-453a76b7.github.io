@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>嘀哩嘀哩-弹幕番剧_在线追番_动漫社区</title>
+  <meta name="description" content="嘀哩嘀哩专注动漫番剧与弹幕文化，提供新番速递、老番回顾、追番日历与社区热评，适合二次元爱好者收藏与追更。">
+  <meta name="keywords" content="嘀哩嘀哩,弹幕番剧,在线追番,动漫社区,新番速递">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📺</text></svg>">
+  <style>
+    /* 全局变量与重置 */
+    :root {
+      --bg: #f9faff;
+      --surface: #ffffff;
+      --surface-soft: #f2f4fc;
+      --text-primary: #1a1e2b;
+      --text-secondary: #4b5163;
+      --text-muted: #7c8298;
+      --border-light: #e6e9f2;
+      --accent: #ff6b9d;
+      --accent-soft: #ffe4ed;
+      --accent-dark: #d94b7a;
+      --blue: #4a7cff;
+      --blue-soft: #e8edff;
+      --radius-card: 20px;
+      --radius-sm: 12px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 18px 34px rgba(255, 107, 157, 0.12);
+      --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --max-width: 1200px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    ul {
+      list-style: none;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    /* 导航栏 */
+    .nav-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.86);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.45rem;
+      letter-spacing: -0.5px;
+    }
+    .logo icon {
+      font-size: 1.8rem;
+    }
+    .logo span {
+      background: linear-gradient(135deg, #ff6b9d, #4a7cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-ghost {
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 22px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 14px rgba(255, 107, 157, 0.28);
+      transition: 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      box-shadow: 0 8px 18px rgba(255, 107, 157, 0.4);
+    }
+    /* 首屏Banner */
+    .hero {
+      margin: 32px auto 24px;
+      background: linear-gradient(105deg, #fff5f9 0%, #f2f6ff 100%);
+      border-radius: 40px;
+      padding: 48px 48px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .hero-content {
+      flex: 1 1 480px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.9rem;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      color: var(--accent);
+    }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
+    .search-box {
+      display: flex;
+      background: #fff;
+      border-radius: 60px;
+      padding: 6px 6px 6px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      max-width: 460px;
+      border: 1px solid var(--border-light);
+      margin-bottom: 28px;
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background: transparent;
+    }
+    .search-box button {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+    .search-box button:hover {
+      background: var(--accent-dark);
+    }
+    .quick-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .quick-tags a {
+      background: #fff;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+      transition: 0.2s;
+      font-weight: 500;
+    }
+    .quick-tags a:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+    .hero-cover {
+      flex: 0 0 240px;
+      height: 180px;
+      background: linear-gradient(135deg, #ffb8d0, #a8c0ff);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.8rem;
+      box-shadow: var(--shadow-md);
+      margin-left: 20px;
+    }
+    /* 通用区块 */
+    .section {
+      margin: 56px 0;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .section-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .section-title small {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-left: 12px;
+    }
+    .more-link {
+      color: var(--accent);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    /* 内容简介 */
+    .intro-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 36px 40px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+    .intro-card strong {
+      color: var(--text-primary);
+    }
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 24px;
+    }
+    .anime-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .anime-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent-soft);
+    }
+    .card-badge {
+      display: inline-block;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      align-self: flex-start;
+    }
+    .anime-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .card-tags span {
+      background: var(--surface-soft);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    /* 最新更新列表 */
+    .update-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .update-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      padding: 18px 24px;
+      border-radius: 18px;
+      border: 1px solid var(--border-light);
+      transition: 0.2s;
+    }
+    .update-item:hover {
+      border-color: var(--accent-soft);
+      background: #fffbfd;
+    }
+    .update-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .update-name {
+      font-weight: 600;
+      min-width: 140px;
+    }
+    .update-time {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .update-tag {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    /* 分类入口 */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .cat-item {
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 20px 12px;
+      text-align: center;
+      border: 1px solid var(--border-light);
+      transition: 0.2s;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .cat-item:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+    .cat-item .emoji {
+      font-size: 1.8rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+    /* 深度解析 */
+    .deep-dive {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      padding: 40px 48px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+    }
+    .deep-dive h2 {
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+    }
+    .deep-dive p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      font-size: 1.02rem;
+      line-height: 1.85;
+    }
+    .deep-dive strong {
+      color: var(--accent-dark);
+    }
+    /* 体验指南 */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .guide-item {
+      background: var(--surface);
+      padding: 24px;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+    }
+    .guide-item h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .guide-item p {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .faq-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--border-light);
+    }
+    .faq-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .faq-card h3 span {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .faq-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    /* 评论 */
+    .comment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .comment-item {
+      background: var(--surface);
+      padding: 20px 24px;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+      display: flex;
+      gap: 16px;
+    }
+    .comment-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffb8d0, #a8c0ff);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+      font-size: 1.2rem;
+    }
+    .comment-body {
+      flex: 1;
+    }
+    .comment-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .comment-name {
+      font-weight: 600;
+    }
+    .comment-date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .comment-text {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    /* 资讯 */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .news-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--border-light);
+    }
+    .news-card .date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .news-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    .news-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    /* 页脚 */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border-light);
+      padding: 48px 0 32px;
+      margin-top: 64px;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 12px;
+      max-width: 280px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+    .footer-links h5 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .footer-links a {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border-light);
+      padding-top: 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    /* 响应式 */
+    @media (max-width: 900px) {
+      .hero {
+        padding: 32px 28px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero-cover {
+        margin-left: 0;
+        margin-top: 24px;
+        width: 100%;
+        flex: auto;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .faq-grid {
+        grid-template-columns: 1fr;
+      }
+      .deep-dive {
+        padding: 28px 24px;
+      }
+    }
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .intro-card {
+        padding: 24px;
+      }
+      .update-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .footer-links {
+        gap: 32px;
+      }
+    }
+    /* 隐藏滚动条但保留功能 */
+    .hide-scroll::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 导航 -->
+  <header class="nav-bar">
+    <div class="container nav-inner">
+      <a href="/#home" class="logo">
+        <icon>📺</icon>
+        <span>嘀哩嘀哩</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#digest">番剧速递</a>
+        <a href="/#ranking">排行榜</a>
+        <a href="/#category">分类</a>
+        <a href="/#community">社区</a>
+        <a href="/#calendar">追番日历</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="/#login" class="btn-ghost">登录</a>
+        <a href="/#join" class="btn-primary">加入嘀哩</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 首屏Banner -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">✨ 弹幕番剧 · 社区精选</div>
+        <h1>嘀哩嘀哩 <span>在线追番</span> 新番老番一网打尽</h1>
+        <p class="hero-desc">在这里，和百万同好一起刷弹幕、追新番、聊神作。每天更新，弹幕陪你。</p>
+        <div class="search-box">
+          <input type="text" placeholder="搜索番剧、角色或声优…" aria-label="搜索番剧">
+          <button>搜索</button>
+        </div>
+        <div class="quick-tags">
+          <a href="/#digest">新番速递</a>
+          <a href="/#ranking">高分神作</a>
+          <a href="/#calendar">追番日历</a>
+          <a href="/#community">弹幕热聊</a>
+          <a href="/#category">剧场版</a>
+          <a href="/#category">国创</a>
+          <a href="/#ranking">经典老番</a>
+        </div>
+      </div>
+      <div class="hero-cover">
+        <span>🎬 番剧</span>
+      </div>
+    </section>
+
+    <!-- 内容简介 -->
+    <section id="intro" class="section">
+      <div class="intro-card">
+        <p><strong>嘀哩嘀哩</strong>是一个以动漫番剧为核心的内容社区，这里汇聚了新番速递、老番回顾、弹幕互动以及同好们的深度讨论。无论你是刚入坑的萌新，还是追番多年的老宅，都能在嘀哩嘀哩找到属于自己的看番节奏。页面整理了近期热门番剧、更新动态、分类索引与社区热评，帮助你快速筛选想看的作品、了解口碑走向，并且通过弹幕与评论感受集体追番的乐趣。如果你正在寻找一个可以安心收藏、随时翻阅的动漫专题站，嘀哩嘀哩会是不错的选择。</p>
+      </div>
+    </section>
+
+    <!-- 热门推荐 -->
+    <section id="digest" class="section">
+      <div class="section-header">
+        <h2 class="section-title">🔥 热门番剧推荐 <small>本周弹幕最热</small></h2>
+        <a href="/#ranking" class="more-link">查看全部 →</a>
+      </div>
+      <div class="card-grid">
+        <article class="anime-card">
+          <div class="card-badge">奇幻冒险</div>
+          <h3>星尘旅人</h3>
+          <div class="card-meta"><span>更新至第8话</span><span>评分9.2</span></div>
+          <p class="card-desc">少年与星灵结伴穿越废土，作画细腻，情感线扎实，弹幕一片“泪目”。</p>
+          <div class="card-tags"><span>热血</span><span>治愈</span><span>2026新番</span></div>
+        </article>
+        <article class="anime-card">
+          <div class="card-badge">校园日常</div>
+          <h3>放学后的音乐室</h3>
+          <div class="card-meta"><span>更新至第12话</span><span>评分8.9</span></div>
+          <p class="card-desc">轻音部重组后的青春群像，每集一首翻唱，评论区已变成大型点歌台。</p>
+          <div class="card-tags"><span>音乐</span><span>青春</span><span>治愈</span></div>
+        </article>
+        <article class="anime-card">
+          <div class="card-badge">悬疑推理</div>
+          <h3>雾都档案</h3>
+          <div class="card-meta"><span>更新至第6话</span><span>评分9.0</span></div>
+          <p class="card-desc">双男主侦探搭档，单元剧结构，伏笔埋得极深，适合喜欢烧脑推理的观众。</p>
+          <div class="card-tags"><span>推理</span><span>双男主</span><span>2026秋番</span></div>
+        </article>
+        <article class="anime-card">
+          <div class="card-badge">科幻机甲</div>
+          <h3>边境协议</h3>
+          <div class="card-meta"><span>更新至第10话</span><span>评分8.7</span></div>
+          <p class="card-desc">硬核机甲设定搭配政治博弈，战斗分镜流畅，设定党狂喜。</p>
+          <div class="card-tags"><span>机甲</span><span>战争</span><span>群像</span></div>
+        </article>
+        <article class="anime-card">
+          <div class="card-badge">恋爱喜剧</div>
+          <h3>我的邻居是笨蛋</h3>
+          <div class="card-meta"><span>更新至第9话</span><span>评分8.5</span></div>
+          <p class="card-desc">欢喜冤家日常，笑点密集，弹幕全程“哈哈哈哈”，适合下饭。</p>
+          <div class="card-tags"><span>恋爱</span><span>喜剧</span><span>日常</span></div>
+        </article>
+        <article class="anime-card">
+          <div class="card-badge">国创崛起</div>
+          <h3>山海奇谭</h3>
+          <div class="card-meta"><span>更新至第5话</span><span>评分9.4</span></div>
+          <p class="card-desc">水墨风+上古神兽，每一帧都是壁纸，国创区口碑黑马。</p>
+          <div class="card-tags"><span>国创</span><span>神话</span><span>水墨风</span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 最新更新 -->
+    <section id="latest" class="section">
+      <div class="section-header">
+        <h2 class="section-title">📅 最新更新 <small>实时追踪</small></h2>
+      </div>
+      <div class="update-list">
+        <div class="update-item"><div class="update-left"><span class="update-name">星尘旅人</span><span class="update-time">第8话 · 今日18:00</span><span class="update-tag">更新</span></div><span>废土上的约定</span></div>
+        <div class="update-item"><div class="update-left"><span class="update-name">雾都档案</span><span class="update-time">第6话 · 今日20:00</span><span class="update-tag">更新</span></div><span>消失的证词</span></div>
+        <div class="update-item"><div class="update-left"><span class="update-name">放学后的音乐室</span><span class="update-time">第12话 · 已完结</span><span class="update-tag">完结</span></div><span>毕业前夜</span></div>
+        <div class="update-item"><div class="update-left"><span class="update-name">边境协议</span><span class="update-time">第10话 · 明日更新</span><span class="update-tag">预告</span></div><span>停战前夜</span></div>
+        <div class="update-item"><div class="update-left"><span class="update-name">山海奇谭</span><span class="update-time">第5话 · 已更新</span><span class="update-tag">更新</span></div><span>烛龙之眼</span></div>
+        <div class="update-item"><div class="update-left"><span class="update-name">我的邻居是笨蛋</span><span class="update-time">第9话 · 今日21:00</span><span class="update-tag">更新</span></div><span>文化祭风波</span></div>
+      </div>
+    </section>
+
+    <!-- 分类入口 -->
+    <section id="category" class="section">
+      <div class="section-header">
+        <h2 class="section-title">📂 分类导航</h2>
+      </div>
+      <div class="category-grid">
+        <a href="/#digest" class="cat-item"><span class="emoji">🔥</span>热血</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🍃</span>治愈</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">💕</span>恋爱</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🔍</span>悬疑</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🤖</span>科幻</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🎵</span>音乐</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🐉</span>国创</a>
+        <a href="/#digest" class="cat-item"><span class="emoji">🎬</span>剧场版</a>
+      </div>
+    </section>
+
+    <!-- 深度解析 -->
+    <section id="deepdive" class="section">
+      <div class="deep-dive">
+        <h2>📝 深度解析：为什么大家都在嘀哩嘀哩追番？</h2>
+        <p><strong>嘀哩嘀哩</strong>的番剧内容覆盖了从奇幻冒险到校园日常的多个类型，页面推荐的《星尘旅人》《雾都档案》等作品，在作画、叙事和情感表达上都有可圈可点之处。对于观众来说，选择一部番剧往往不只是看预告，更要看口碑、讨论氛围以及更新节奏。嘀哩嘀哩聚集了大量真实弹幕和评论，新番开播后，你可以快速从评论区了解到作品的亮点和雷点，避免踩坑。</p>
+        <p>在内容呈现上，页面采用了专题化推荐与分类索引结合的方式，热门番剧卡片给出了评分、更新状态和看点摘要，方便你快速决策。深度解析模块则从题材特点、人物塑造和节奏体验展开，例如《雾都档案》的单元剧结构和伏笔回收，适合喜欢推理的观众；《山海奇谭》的水墨风格和神兽设定，则更能吸引国创爱好者。</p>
+        <p>此外，追番日历、更新列表和社区讨论共同构成了一个完整的消费路径。你可以先浏览热门推荐，再根据分类筛选找到感兴趣的作品，最后在评论区参与讨论。这种“浏览-筛选-讨论”的循环，正是嘀哩嘀哩希望带给用户的体验。如果你在寻找一个内容扎实、更新及时、社区氛围友好的动漫专题站，不妨把嘀哩嘀哩加入收藏夹。</p>
+      </div>
+    </section>
+
+    <!-- 体验指南 -->
+    <section id="guide" class="section">
+      <div class="section-header">
+        <h2 class="section-title">🧭 体验指南</h2>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-item"><h4>📌 分类清晰</h4><p>按类型、热度、更新时间筛选，快速定位想看的番剧。</p></div>
+        <div class="guide-item"><h4>📱 移动适配</h4><p>手机端阅读体验优化，随时刷弹幕、追更新。</p></div>
+        <div class="guide-item"><h4>🔄 追更友好</h4><p>更新列表实时同步，不错过每一集。</p></div>
+        <div class="guide-item"><h4>💬 弹幕社区</h4><p>弹幕与评论双通道，追番不孤单。</p></div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="section-header">
+        <h2 class="section-title">❓ 常见问题</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-card"><h3><span>Q1</span> 嘀哩嘀哩主要提供什么内容？</h3><p>嘀哩嘀哩是一个动漫番剧聚合专题站，提供新番推荐、老番回顾、更新追踪、分类索引以及社区讨论。页面会整理热门番剧的评分、看点和更新状态，帮助动漫爱好者快速找到感兴趣的作品。</p></div>
+        <div class="faq-card"><h3><span>Q2</span> 适合哪些人浏览？</h3><p>适合喜欢追番、看弹幕、参与社区讨论的二次元爱好者。无论你是刚入坑的新人，还是追番多年的老观众，都可以通过分类和热门推荐找到适合自己的内容。</p></div>
+        <div class="faq-card"><h3><span>Q3</span> 新番推荐多久更新一次？</h3><p>热门推荐与最新更新栏目会根据当季新番的播出节奏持续调整，通常每周更新多次，确保你看到的是近期活跃的内容。</p></div>
+        <div class="faq-card"><h3><span>Q4</span> 可以在页面上直接观看番剧吗？</h3><p>本页面为内容专题落地页，主要提供番剧信息、推荐与社区讨论，不直接提供在线播放。你可以通过页面了解作品详情后，前往相应平台观看。</p></div>
+        <div class="faq-card"><h3><span>Q5</span> 如何快速找到想看的类型？</h3><p>使用顶部分类导航或搜索框，也可以浏览“分类导航”模块，按热血、治愈、恋爱、悬疑等标签筛选，快速缩小范围。</p></div>
+        <div class="faq-card"><h3><span>Q6</span> 页面评论和弹幕是真实的吗？</h3><p>页面评论为社区精选示例，模拟真实用户讨论氛围，旨在展示嘀哩嘀哩社区的交流风格，不代表实时数据。</p></div>
+      </div>
+    </section>
+
+    <!-- 用户评论 -->
+    <section id="community" class="section">
+      <div class="section-header">
+        <h2 class="section-title">💬 社区热评 <small>大家都在聊</small></h2>
+      </div>
+      <div class="comment-list">
+        <div class="comment-item"><div class="comment-avatar">星</div><div class="comment-body"><div class="comment-head"><span class="comment-name">星尘旅人赛高</span><span class="comment-date">2026-11-07</span></div><p class="comment-text">《星尘旅人》第8话哭死我了，弹幕全是“泪目”，音乐一响直接破防。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">雾</div><div class="comment-body"><div class="comment-head"><span class="comment-name">雾都侦探社</span><span class="comment-date">2026-11-06</span></div><p class="comment-text">《雾都档案》的伏笔回收太舒服了，第六集那个反转我完全没猜到，推理迷必看。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">山</div><div class="comment-body"><div class="comment-head"><span class="comment-name">山海经爱好者</span><span class="comment-date">2026-11-05</span></div><p class="comment-text">国创《山海奇谭》的画风真的绝，水墨特效每一帧都能当壁纸，希望后面别崩。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">音</div><div class="comment-body"><div class="comment-head"><span class="comment-name">轻音部编外</span><span class="comment-date">2026-11-04</span></div><p class="comment-text">放学后的音乐室完结撒花，最后一集的合唱太感动了，已经在网易云循环了。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">机</div><div class="comment-body"><div class="comment-head"><span class="comment-name">机甲控老张</span><span class="comment-date">2026-11-03</span></div><p class="comment-text">边境协议战斗分镜很顶，但政治戏稍微有点多，想看更纯粹的机甲对轰。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">笨</div><div class="comment-body"><div class="comment-head"><span class="comment-name">邻居是笨蛋粉</span><span class="comment-date">2026-11-02</span></div><p class="comment-text">我的邻居是笨蛋真的适合下饭，笑点很密集，每周的快乐源泉。</p></div></div>
+        <div class="comment-item"><div class="comment-avatar">追</div><div class="comment-body"><div class="comment-head"><span class="comment-name">追番不睡觉</span><span class="comment-date">2026-11-01</span></div><p class="comment-text">嘀哩嘀哩的更新列表做得不错，一目了然，追更方便多了。</p></div></div>
+      </div>
+    </section>
+
+    <!-- 相关资讯 -->
+    <section id="news" class="section">
+      <div class="section-header">
+        <h2 class="section-title">📰 番剧资讯</h2>
+      </div>
+      <div class="news-grid">
+        <div class="news-card"><div class="date">2026-11-07</div><h4>《星尘旅人》第8话口碑爆棚</h4><p>废土冒险再迎高潮，弹幕量创本季新高，观众直呼“年度最佳单集”。</p></div>
+        <div class="news-card"><div class="date">2026-11-06</div><h4>《雾都档案》确认制作续篇</h4><p>官方宣布第二季制作决定，双男主侦探组合将继续破解新案件。</p></div>
+        <div class="news-card"><div class="date">2026-11-05</div><h4>国创《山海奇谭》播放量破亿</h4><p>水墨风神话题材受到热捧，成为本季度国创区最大黑马。</p></div>
+        <div class="news-card"><div class="date">2026-11-04</div><h4>《放学后的音乐室》完结纪念活动</h4><p>官方发布完结感谢PV，OST专辑同步上线各大音乐平台。</p></div>
+        <div class="news-card"><div class="date">2026-11-03</div><h4>《边境协议》追加声优阵容</h4><p>人气声优加盟，后续剧情将迎来新角色登场。</p></div>
+        <div class="news-card"><div class="date">2026-11-02</div><h4>嘀哩嘀哩秋季追番报告发布</h4><p>平台发布用户追番偏好数据，治愈系与悬疑类番剧最受欢迎。</p></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/#home" class="logo"><icon>📺</icon><span>嘀哩嘀哩</span></a>
+          <p>和百万同好一起追番、刷弹幕、聊神作。<br>每天更新，弹幕陪你。</p>
+        </div>
+        <div class="footer-links">
+          <div><h5>导航</h5><a href="/#digest">番剧速递</a><a href="/#ranking">排行榜</a><a href="/#category">分类</a><a href="/#community">社区</a></div>
+          <div><h5>关于</h5><a href="/#intro">关于嘀哩</a><a href="/#faq">常见问题</a><a href="/#news">资讯</a></div>
+          <div><h5>友情链接</h5><a href="/#partner">合作站点</a><a href="/#partner">友情链接</a></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 嘀哩嘀哩 · 内容专题演示页 · 本站为静态页面，所有信息仅供参考</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 固定脚本 -->
+  <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</body>
+                                            </html>
